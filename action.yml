@@ -1,11 +1,33 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: "Signtool Code Sign"
+description: "Sign files with with a pfx certificate using signtool"
+author: "Gabriel Acosta"
+branding:
+  icon: "code"
+  color: "gray-dark"
 inputs:
-  milliseconds: # change this
+  folder:
+    description: "path to folder containing files to sign."
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+  recursive:
+    description: "Recursively search for supported files."
+    default: "false"
+    required: false
+  certificate:
+    description: "Base64 encoded pfx certificate"
+    required: true
+  cert-sha1:
+    description: "Certificate sha1/thumbprint"
+    required: true
+  cert-password:
+    description: "Certificate password"
+    required: true
+  timestamp-server:
+    description: "URL of the timestamp server used for the signing"
+    default: "http://timestamp.verisign.com/scripts/timstamp.dll"
+    required: false
+  cert-description:
+    description: "Add a description to the files being signed"
+    required: false
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: "node12"
+  main: "dist/index.js"
