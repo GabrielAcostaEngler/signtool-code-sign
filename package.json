@@ -2,7 +2,7 @@
   "name": "typescript-action",
   "version": "0.0.0",
   "private": true,
-  "description": "TypeScript template action",
+  "description": "Sign files with signtool.exe",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/GabrielAcostaEngler/signtool-code-sign.git"
   },
   "keywords": [
     "actions",
     "node",
     "setup"
   ],
-  "author": "",
+  "author": "Gabriel Acosta",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.2.6"
