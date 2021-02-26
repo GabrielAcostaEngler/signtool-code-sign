@@ -1,5 +1,5 @@
 name: 'build-test'
-on: # rebuild any PRs and main branch changes
+on:
   pull_request:
   push:
     branches:
@@ -8,7 +8,7 @@ on: # rebuild any PRs and main branch changes
 
 jobs:
   build: # make sure build/ci work properly
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
       - run: |
@@ -16,9 +16,15 @@ jobs:
       - run: |
           npm run all
   test: # make sure the action works on a clean machine without building
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
       - uses: ./
         with:
-          milliseconds: 1000
+          certificate: '${{ secrets.CS_CERT_BASE64 }}'
+          cert-password: '${{ secrets.CS_CERT_PASSWORD }}'
+          cert-sha1: '${{ secrets.CS_CERT_HASH }}'
+          cert-description: 'Test'
+          folder: '__tests__/dll'
+          recursive: true
+          timestamp-server: 'http://timestamp.digicert.com'
