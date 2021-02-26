@@ -180,10 +180,10 @@ function trySign(file) {
             yield wait(i);
             if (supportedFileExt.includes(ext)) {
                 try {
-                    const command = `"${signtool}" sign /sm /t ${timestmpServer} /sha1 "${sha1}" /f ${file}`;
+                    var command = `"${signtool}" sign /f "${certPath}" /sm /t ${timestmpServer} /sha1 "${sha1}"`;
                     if (certDesc !== '')
                         command.concat(` /d ${certDesc}`);
-                    command.concat(` ${file}`);
+                    command.concat(` "${file}"`);
                     core.info(`Signing file: ${file}\nCommand: ${command}`);
                     const { stdout } = yield execAsync(command);
                     core.info(stdout);
