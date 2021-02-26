@@ -154,7 +154,7 @@ async function signFiles(): Promise<void> {
 		await trySign(file);
 }
 
-/* eslint-disable no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Return files one by one to be signed.
  *
@@ -172,7 +172,7 @@ async function* getFiles(): any {
 			yield* getFiles();
 	}
 }
-/* eslint-disable no-explicit-any */
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 async function run(): Promise<void> {
 	try {
