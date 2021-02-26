@@ -126,7 +126,7 @@ async function trySign(file: string): Promise<boolean> {
 		await wait(i);
 		if (supportedFileExt.includes(ext)) {
 			try {
-				const command = `"${signtool}" sign /sm /t ${timestmpServer} /sha1 "${sha1}"`;
+				const command = `"${signtool}" sign /sm /t ${timestmpServer} /sha1 "${sha1}" /f ${file}`;
 				if (certDesc !== '') command.concat(` /d ${certDesc}`);
 
 				command.concat(` ${file}`);
