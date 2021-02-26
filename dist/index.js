@@ -185,8 +185,12 @@ function trySign(file) {
                         command = command.concat(` /d ${certDesc}`);
                     command = command.concat(` "${file}"`);
                     core.info(`Signing file: ${file}\nCommand: ${command}`);
-                    const { stdout } = yield execAsync(command);
-                    core.info(stdout);
+                    const signCommandResult = yield execAsync(command);
+                    core.info(signCommandResult.stdout);
+                    var verifyCommand = `"${signtool}" verify /pa "${file}"`;
+                    core.info(`Verifying signing for file: ${file}\nCommand: ${verifyCommand}`);
+                    const verifyCommandResult = yield execAsync(verifyCommand);
+                    core.info(verifyCommandResult.stdout);
                     return true;
                 }
                 catch (error) {
