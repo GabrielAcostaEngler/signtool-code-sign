@@ -210,7 +210,7 @@ function signFiles() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            for (var _b = __asyncValues(getFiles()), _c; _c = yield _b.next(), !_c.done;) {
+            for (var _b = __asyncValues(getFiles(folder, recursive)), _c; _c = yield _b.next(), !_c.done;) {
                 const file = _c.value;
                 yield trySign(file);
             }
@@ -229,7 +229,7 @@ function signFiles() {
  * Return files one by one to be signed.
  *
  */
-function getFiles() {
+function getFiles(folder, recursive) {
     return __asyncGenerator(this, arguments, function* getFiles_1() {
         const files = yield __await(fs_1.promises.readdir(folder));
         for (const file of files) {
@@ -241,7 +241,7 @@ function getFiles() {
                     yield yield __await(fullPath);
             }
             else if (stat.isDirectory && recursive)
-                yield __await(yield* __asyncDelegator(__asyncValues(getFiles())));
+                yield __await(yield* __asyncDelegator(__asyncValues(getFiles(fullPath, recursive))));
         }
     });
 }

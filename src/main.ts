@@ -155,7 +155,7 @@ async function trySign(file: string): Promise<boolean> {
  *
  */
 async function signFiles(): Promise<void> {
-	for await (const file of getFiles())
+	for await (const file of getFiles(folder, recursive))
 		await trySign(file);
 }
 
@@ -164,7 +164,7 @@ async function signFiles(): Promise<void> {
  * Return files one by one to be signed.
  *
  */
-async function* getFiles(): any {
+async function* getFiles(folder: string, recursive: boolean): any {
 	const files = await promises.readdir(folder);
 	for (const file of files) {
 		const fullPath = `${folder}/${file}`;
@@ -174,7 +174,7 @@ async function* getFiles(): any {
 			if (supportedFileExt.includes(ext) || ext === '.nupkg')
 				yield fullPath;
 		} else if (stat.isDirectory && recursive)
-			yield* getFiles();
+			yield* getFiles(fullPath, recursive);
 	}
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */
