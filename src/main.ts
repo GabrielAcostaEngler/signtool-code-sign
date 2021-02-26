@@ -128,9 +128,9 @@ async function trySign(file: string): Promise<boolean> {
 			try {
 				var command = `"${signtool}" sign /f "${certPath}" /sm /t ${timestmpServer} /sha1 "${sha1}"`;
 				if (certDesc !== '')
-					command.concat(` /d ${certDesc}`);
+					command = command.concat(` /d ${certDesc}`);
 
-				command.concat(` "${file}"`);
+				command = command.concat(` "${file}"`);
 				core.info(`Signing file: ${file}\nCommand: ${command}`);
 
 				const { stdout } = await execAsync(command);
