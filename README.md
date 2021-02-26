@@ -38,6 +38,7 @@ Thanks to [Dirk Lemstra](https://github.com/dlemstra/code-sign-action) for provi
 ### `timestamp-server`
 **Description** - Url of the timestamp server.  
 **Default** - 'http://timestamp.verisign.com/scripts/timstamp.dll'  
+
 # Usage
 
 ```
