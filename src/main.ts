@@ -154,11 +154,12 @@ async function signFiles(): Promise<void> {
 		await trySign(file);
 }
 
+/* eslint-disable no-explicit-any */
 /**
  * Return files one by one to be signed.
  *
  */
-async function* getFiles(): AsyncIterableIterator<string> {
+async function* getFiles(): any {
 	const files = await promises.readdir(folder);
 	for (const file of files) {
 		const fullPath = `${folder}/${file}`;
@@ -171,6 +172,7 @@ async function* getFiles(): AsyncIterableIterator<string> {
 			yield* getFiles();
 	}
 }
+/* eslint-disable no-explicit-any */
 
 async function run(): Promise<void> {
 	try {
