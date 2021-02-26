@@ -45,27 +45,27 @@ const supportedFileExt = [
  */
 function validateInputs(): boolean {
 	if (folder.length === 0) {
-		console.log('foler input must have a value.');
+		core.error('foler input must have a value.');
 		return false;
 	}
 
 	if (base64cert.length === 0) {
-		console.log('certificate input must have a value.');
+		core.error('certificate input must have a value.');
 		return false;
 	}
 
 	if (password.length === 0) {
-		console.log('cert-password input must have a value.');
+		core.error('cert-password input must have a value.');
 		return false;
 	}
 
 	if (sha1.length === 0) {
-		console.log('cert-sha1 input must have a value.');
+		core.error('cert-sha1 input must have a value.');
 		return false;
 	}
 
 	if (password.length === 0) {
-		console.log('Password must have a value.');
+		core.error('Password must have a value.');
 		return false;
 	}
 
@@ -78,7 +78,7 @@ function validateInputs(): boolean {
  * @param seconds amount of seconds to wait.
  */
 function wait(seconds: number): unknown {
-	if (seconds > 0) console.log(`Waiting for ${seconds} seconds.`);
+	if (seconds > 0) core.info(`Waiting for ${seconds} seconds.`);
 	return new Promise(resolve => setTimeout(resolve, seconds * 1000));
 }
 
@@ -89,7 +89,7 @@ function wait(seconds: number): unknown {
 async function createCert(): Promise<boolean> {
 	const cert = Buffer.from(base64cert, 'base64');
 
-	console.log(`Creating PFX Certificate at path: ${certPath}`);
+	core.info(`Creating PFX Certificate at path: ${certPath}`);
 	await promises.writeFile(certPath, cert);
 
 	return true;
@@ -102,15 +102,15 @@ async function createCert(): Promise<boolean> {
 async function addCertToStore(): Promise<boolean> {
 	try {
 		const command = `certutil -f -p ${password} -importpfx ${certPath}`;
-		console.log(`Adding to store using "${command}" command`);
+		core.info(`Adding to store using "${command}" command`);
 
 		const { stdout } = await execAsync(command);
-		console.log(stdout);
+		core.info(stdout);
 
 		return true;
 	} catch (error) {
-		console.log(error.stdout);
-		console.log(error.stderr);
+		core.error(error.stdout);
+		core.error(error.stderr);
 		return false;
 	}
 }
@@ -130,15 +130,15 @@ async function trySign(file: string): Promise<boolean> {
 				if (certDesc !== '') command.concat(` /d ${certDesc}`);
 
 				command.concat(` ${file}`);
-				console.log(`Signing file: ${file}\nCommand: ${command}`);
+				core.info(`Signing file: ${file}\nCommand: ${command}`);
 
 				const { stdout } = await execAsync(command);
-				console.log(stdout);
+				core.info(stdout);
 
 				return true;
 			} catch (error) {
-				console.log(error.stdout);
-				console.log(error.stderr);
+				core.error(error.stdout);
+				core.error(error.stderr);
 			}
 		}
 	}
