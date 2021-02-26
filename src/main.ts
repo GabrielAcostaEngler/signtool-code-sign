@@ -158,7 +158,7 @@ async function signFiles(): Promise<void> {
  * Return files one by one to be signed.
  *
  */
-async function* getFiles(): any {
+async function* getFiles(): AsyncIterableIterator<string> {
 	const files = await promises.readdir(folder);
 	for (const file of files) {
 		const fullPath = `${folder}/${file}`;
