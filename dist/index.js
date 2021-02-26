@@ -187,7 +187,7 @@ function trySign(file) {
                     core.info(`Signing file: ${file}\nCommand: ${command}`);
                     const signCommandResult = yield execAsync(command);
                     core.info(signCommandResult.stdout);
-                    var verifyCommand = `"${signtool}" verify /pa "${file}"`;
+                    const verifyCommand = `"${signtool}" verify /pa "${file}"`;
                     core.info(`Verifying signing for file: ${file}\nCommand: ${verifyCommand}`);
                     const verifyCommandResult = yield execAsync(verifyCommand);
                     core.info(verifyCommandResult.stdout);

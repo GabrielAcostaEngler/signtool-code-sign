@@ -135,8 +135,7 @@ async function trySign(file: string): Promise<boolean> {
 				const signCommandResult = await execAsync(command);
 				core.info(signCommandResult.stdout);
 
-
-				var verifyCommand = `"${signtool}" verify /pa "${file}"`;
+				const verifyCommand = `"${signtool}" verify /pa "${file}"`;
 				core.info(`Verifying signing for file: ${file}\nCommand: ${verifyCommand}`);
 				const verifyCommandResult = await execAsync(verifyCommand);
 				core.info(verifyCommandResult.stdout);
