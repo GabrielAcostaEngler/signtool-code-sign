@@ -44,7 +44,7 @@ Thanks to [Dirk Lemstra](https://github.com/dlemstra/code-sign-action) for provi
 ```
 runs-on: windows-latest
 steps:
-  uses: GabrielAcostaEngler/signtool-code-sign@master
+  uses: GabrielAcostaEngler/signtool-code-sign@main
   with:
     certificate: '${{ secrets.CERTIFICATE }}'
     cert-password: '${{ secrets.PASSWORD }}'
