@@ -173,7 +173,7 @@ async function* getFiles(folder: string, recursive: boolean): any {
 			const ext = path.extname(file);
 			if (supportedFileExt.includes(ext) || ext === '.nupkg')
 				yield fullPath;
-		} else if (stat.isDirectory && recursive)
+		} else if ((stat.isDirectory()) && recursive)
 			yield* getFiles(fullPath, recursive);
 	}
 }
