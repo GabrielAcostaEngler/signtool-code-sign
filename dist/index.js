@@ -75,13 +75,13 @@ const execAsync = util_1.default.promisify(child_process_1.exec);
 const certPath = `${process_1.env['TEMP']}\\certificate.pfx`;
 const signtool = 'C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe';
 // Inputs
-const folder = core.getInput('folder');
-const recursive = core.getInput('recursive') === 'true';
-const base64cert = core.getInput('certificate');
-const password = core.getInput('cert-password');
-const sha1 = core.getInput('cert-sha1');
-const timestmpServer = core.getInput('timestamp-server');
-const certDesc = core.getInput('cert-description');
+const coreFolder = core.getInput('folder');
+const coreRecursive = core.getInput('recursive') === 'true';
+const coreBase64cert = core.getInput('certificate');
+const corePassword = core.getInput('cert-password');
+const coreSha1 = core.getInput('cert-sha1');
+const coreTimestampServer = core.getInput('timestamp-server');
+const coreCertDesc = core.getInput('cert-description');
 // Supported files
 const supportedFileExt = [
     '.dll',
@@ -104,23 +104,23 @@ const supportedFileExt = [
  *
  */
 function validateInputs() {
-    if (folder.length === 0) {
+    if (coreFolder.length === 0) {
         core.error('foler input must have a value.');
         return false;
     }
-    if (base64cert.length === 0) {
+    if (coreBase64cert.length === 0) {
         core.error('certificate input must have a value.');
         return false;
     }
-    if (password.length === 0) {
+    if (corePassword.length === 0) {
         core.error('cert-password input must have a value.');
         return false;
     }
-    if (sha1.length === 0) {
+    if (coreSha1.length === 0) {
         core.error('cert-sha1 input must have a value.');
         return false;
     }
-    if (password.length === 0) {
+    if (corePassword.length === 0) {
         core.error('Password must have a value.');
         return false;
     }
@@ -142,7 +142,7 @@ function wait(seconds) {
  */
 function createCert() {
     return __awaiter(this, void 0, void 0, function* () {
-        const cert = Buffer.from(base64cert, 'base64');
+        const cert = Buffer.from(coreBase64cert, 'base64');
         core.info(`Creating PFX Certificate at path: ${certPath}`);
         yield fs_1.promises.writeFile(certPath, cert);
         return true;
@@ -155,7 +155,7 @@ function createCert() {
 function addCertToStore() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const command = `certutil -f -p ${password} -importpfx ${certPath}`;
+            const command = `certutil -f -p ${corePassword} -importpfx ${certPath}`;
             core.info(`Adding to store using "${command}" command`);
             const { stdout } = yield execAsync(command);
             core.info(stdout);
@@ -180,9 +180,9 @@ function trySign(file) {
             yield wait(i);
             if (supportedFileExt.includes(ext)) {
                 try {
-                    let command = `"${signtool}" sign /sm /t ${timestmpServer} /sha1 "${sha1}"`;
-                    if (certDesc !== '')
-                        command = command.concat(` /d "${certDesc}"`);
+                    let command = `"${signtool}" sign /sm /t ${coreTimestampServer} /sha1 "${coreSha1}"`;
+                    if (coreCertDesc !== '')
+                        command = command.concat(` /d "${coreCertDesc}"`);
                     command = command.concat(` "${file}"`);
                     core.info(`Signing file: ${file}\nCommand: ${command}`);
                     const signCommandResult = yield execAsync(command);
@@ -210,7 +210,7 @@ function signFiles() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            for (var _b = __asyncValues(getFiles(folder, recursive)), _c; _c = yield _b.next(), !_c.done;) {
+            for (var _b = __asyncValues(getFiles(coreFolder, coreRecursive)), _c; _c = yield _b.next(), !_c.done;) {
                 const file = _c.value;
                 yield trySign(file);
             }
@@ -240,7 +240,7 @@ function getFiles(folder, recursive) {
                 if (supportedFileExt.includes(ext) || ext === '.nupkg')
                     yield yield __await(fullPath);
             }
-            else if (stat.isDirectory && recursive)
+            else if (stat.isDirectory() && recursive)
                 yield __await(yield* __asyncDelegator(__asyncValues(getFiles(fullPath, recursive))));
         }
     });
