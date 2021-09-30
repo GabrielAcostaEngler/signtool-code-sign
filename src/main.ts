@@ -145,7 +145,7 @@ async function trySign(file: string): Promise<boolean> {
 
 				return true
 			} catch (error) {
-				core.error(error.stdout)
+				core.error(error.stderr)
 				core.error(error.stderr)
 			}
 		}
