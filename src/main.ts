@@ -2,8 +2,8 @@ import * as core from '@actions/core'
 import {exec} from 'child_process'
 import {promises} from 'fs'
 import path from 'path'
-import util from 'util'
 import {env} from 'process'
+import util from 'util'
 
 // Exec
 const execAsync = util.promisify(exec)
@@ -66,7 +66,7 @@ function validateInputs(): boolean {
 	}
 
 	if (corePassword.length === 0) {
-		core.error('Password must have a value.')
+		core.error('password must have a value.')
 		return false
 	}
 
@@ -79,7 +79,7 @@ function validateInputs(): boolean {
  * @param seconds amount of seconds to wait.
  */
 function wait(seconds: number): unknown {
-	if (seconds > 0) core.info(`Waiting for ${seconds} seconds.`)
+	if (seconds > 0) core.info(`waiting for ${seconds} seconds.`)
 	return new Promise(resolve => setTimeout(resolve, seconds * 1000))
 }
 
@@ -90,7 +90,7 @@ function wait(seconds: number): unknown {
 async function createCert(): Promise<boolean> {
 	const cert = Buffer.from(coreBase64cert, 'base64')
 
-	core.info(`Creating PFX Certificate at path: ${certPath}`)
+	core.info(`creating PFX Certificate at path: ${certPath}`)
 	await promises.writeFile(certPath, cert)
 
 	return true
@@ -103,7 +103,7 @@ async function createCert(): Promise<boolean> {
 async function addCertToStore(): Promise<boolean> {
 	try {
 		const command = `certutil -f -p ${corePassword} -importpfx ${certPath}`
-		core.info(`Adding to store using "${command}" command`)
+		core.info(`adding to store using "${command}" command`)
 
 		const {stdout} = await execAsync(command)
 		core.info(stdout)
@@ -132,13 +132,13 @@ async function trySign(file: string): Promise<boolean> {
 					command = command.concat(` /d "${coreCertDesc}"`)
 
 				command = command.concat(` "${file}"`)
-				core.info(`Signing file: ${file}\nCommand: ${command}`)
+				core.info(`signing file: ${file}\nCommand: ${command}`)
 				const signCommandResult = await execAsync(command)
 				core.info(signCommandResult.stdout)
 
 				const verifyCommand = `"${signtool}" verify /pa "${file}"`
 				core.info(
-					`Verifying signing for file: ${file}\nCommand: ${verifyCommand}`
+					`verifying signing for file: ${file}\nCommand: ${verifyCommand}`
 				)
 				const verifyCommandResult = await execAsync(verifyCommand)
 				core.info(verifyCommandResult.stdout)
@@ -186,7 +186,7 @@ async function run(): Promise<void> {
 		validateInputs()
 		if ((await createCert()) && (await addCertToStore())) await signFiles()
 	} catch (error) {
-		core.setFailed(`Code Signing failed\nError: ${error}`)
+		core.setFailed(`code Signing failed\nError: ${error}`)
 	}
 }
 
