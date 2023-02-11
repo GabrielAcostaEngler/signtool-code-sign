@@ -1,6 +1,6 @@
-name: 'Signtool Code Sign'
+name: 'Signtool Code Sign (Reloaded)'
 description: 'Sign files with with a pfx certificate using signtool'
-author: 'Gabriel Acosta'
+author: 'Gabriel Acosta/Minionguyjpro'
 branding:
   icon: 'code'
   color: 'gray-dark'
